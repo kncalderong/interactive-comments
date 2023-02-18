@@ -1,8 +1,15 @@
 import { IconReply } from '../../assets/index.js';
 
-const Reply = () => {
+type ReplyProps = {
+  inMobile: boolean
+}
+
+const Reply = (props: ReplyProps) => {
+  
+  const { inMobile} = props
+  
   return (
-    <div className='flex items-center gap-2'>
+    <div className={`flex items-center gap-2 ${inMobile ? 'sm:hidden' : 'hidden sm:flex' }`}>
       <img src={IconReply} alt="replyIcon" /> <span className='text-moderate-blue font-semibold' >Reply</span>
     </div>
   )

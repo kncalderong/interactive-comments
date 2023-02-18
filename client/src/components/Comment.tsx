@@ -35,11 +35,11 @@ const Comment = (props: CommentProps) => {
 
 
   return (
-    <div className={`${isReply ? 'w-[95%]' : 'w-[90%]' } p-4 bg-white rounded-lg sm:max-w-[720px] `}>
-
+    <div className={`${isReply ? 'w-[95%]' : 'w-[90%]' } p-4 bg-white rounded-lg sm:max-w-[720px] sm:p-6 flex-col flex sm:flex-row-reverse `}>
       <div>
-        <div className='flex items-center gap-3 mb-4'>
-          <div className='w-[2rem]'>
+        <div className='flex items-center mb-4 justify-between'>
+          <div className='flex items-center gap-3 ' >
+            <div className='w-[2rem]'>
             <img src="https://user-images.githubusercontent.com/80135017/218482952-66003814-ad3e-4482-b76e-694cf41368a5.png" alt="userImage" className='w-full block ' />
           </div>
           <p className='font-bold text-dark-blue '>
@@ -53,12 +53,16 @@ const Comment = (props: CommentProps) => {
           <p className='text-grayish-blue '>
             1 month ago
           </p>
+          </div>
+          <div >
+          {isFromUser ? <EditAndDelete inMobile={false} /> : <Reply inMobile={false} />}
+          </div>
         </div>
         <div className='text-grayish-blue mb-4' >Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.</div>
       </div>
       <div className='flex justify-between' >
         <SelectQuantity />
-        {isFromUser ? <EditAndDelete /> : <Reply />}
+        {isFromUser ? <EditAndDelete inMobile={true} /> : <Reply inMobile={true} />}
       </div>
     </div>
   )

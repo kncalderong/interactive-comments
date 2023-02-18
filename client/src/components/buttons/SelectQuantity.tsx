@@ -3,7 +3,7 @@ import { IconMinus, IconPlus } from '../../assets/index.js';
 
 const SelectQuantity = () => {
   return (
-    <div className="flex p-2 bg-very-light-gray justify-between w-[100px] rounded-xl">
+    <div className="flex p-2 bg-very-light-gray justify-between w-[100px] rounded-xl sm:flex-col sm:w-auto sm:h-[100px] ">
       <div className='flex w-4 justify-center items-center'>
         <img src={IconPlus} alt="plusIcon" />
       </div>
