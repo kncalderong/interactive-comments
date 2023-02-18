@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
 import EditAndDelete from './buttons/EditAndDelete'
 import Reply from './buttons/Reply' 
 import SelectQuantity from './buttons/SelectQuantity';
+import { useState } from 'react';
+import TextInput from './TextInput';
 
 type CommentProps = {
   isFromUser: boolean
@@ -14,27 +15,21 @@ const Comment = (props: CommentProps) => {
     isFromUser,
     isReply
   } = props
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
-
-  console.log("windowSize: ", windowWidth)
-  console.log(isFromUser);
-  console.log(isReply);
-
-
+  
+  const [isReplying, setIsReplying] = useState<boolean>(false)
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  
+  const toggleUserAction = (action: string) => {
+    if (action === 'replyToggle') {
+      setIsReplying(!isReplying)
+    }
+    if (action === 'editToggle') {
+      setIsEditing(!isEditing)
+    }
+  }
+  
   return (
+  <>
     <div className={`${isReply ? 'w-[95%]' : 'w-[90%]' } p-4 bg-white rounded-lg sm:max-w-[720px] sm:p-6 flex-col flex sm:flex-row-reverse `}>
       <div>
         <div className='flex items-center mb-4 justify-between'>
@@ -55,16 +50,19 @@ const Comment = (props: CommentProps) => {
           </p>
           </div>
           <div >
-          {isFromUser ? <EditAndDelete inMobile={false} /> : <Reply inMobile={false} />}
+          {isFromUser ? <EditAndDelete inMobile={false} toggleUserAction={toggleUserAction} /> : <Reply inMobile={false} toggleUserAction={toggleUserAction} />}
           </div>
         </div>
         <div className='text-grayish-blue mb-4' >Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.</div>
       </div>
       <div className='flex justify-between' >
         <SelectQuantity />
-        {isFromUser ? <EditAndDelete inMobile={true} /> : <Reply inMobile={true} />}
+        {isFromUser ? <EditAndDelete inMobile={true} toggleUserAction={toggleUserAction} /> : <Reply inMobile={true} toggleUserAction={toggleUserAction} />}
       </div>
-    </div>
+      </div>
+      {isReplying && <TextInput isEditing={false} isReplying={true} />}
+  </>
+    
   )
 }
 
