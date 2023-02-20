@@ -10,6 +10,7 @@ import currentUser from '../utils/CurrentUser';
 type CommentProps = {
   isReply: boolean
   commentData: CommentType
+  toggleModal(): void
 }
 
 const Comment = (props: CommentProps) => {
@@ -21,7 +22,8 @@ const Comment = (props: CommentProps) => {
       text,
       user,
       answers
-    }
+    },
+    toggleModal
   } = props
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
@@ -34,9 +36,11 @@ const Comment = (props: CommentProps) => {
     if (action === 'editToggle') {
       setIsEditing(!isEditing)
     }
+    if (action === 'deleteToggle') {
+      toggleModal()
+    }
   }
   console.log("createdAt: ", createdAt);
-  
   return (
     <>
       <div className={`${isReply ? 'w-[95%]' : 'w-[90%]'} p-4 bg-white rounded-lg sm:max-w-[720px] sm:p-6 flex-col flex sm:flex-row-reverse `}>
@@ -75,7 +79,7 @@ const Comment = (props: CommentProps) => {
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
             return (
-              <Comment isReply={true} commentData={answer} />
+              <Comment isReply={true} commentData={answer} toggleModal={toggleModal} />
             )
           })}
         </div>
