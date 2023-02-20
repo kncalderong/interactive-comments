@@ -1,8 +1,13 @@
 
 import { IconMinus, IconPlus, IconPlusDark, IconMinusDark } from '../../assets/index.js';
-import {useState} from 'react'
+import { useState } from 'react'
 
-const SelectQuantity = () => {
+type SelectQuantityProps = {
+  score: number
+}
+
+
+const SelectQuantity = ({score}: SelectQuantityProps ) => {
   
   const [iconPlusToShow, setIconPlusToShow] = useState(IconPlus)
   const [iconMinusToShow, setIconMinusToShow] = useState(IconMinus)
@@ -12,7 +17,7 @@ const SelectQuantity = () => {
       <div className='flex w-4 justify-center items-center basis-6 cursor-pointer ' onMouseEnter={()=> setIconPlusToShow(IconPlusDark)} onMouseLeave={()=> setIconPlusToShow(IconPlus)} >
         <img src={iconPlusToShow} alt="plusIcon" />
       </div>
-      <div className='flex w-4 justify-center items-center text-moderate-blue font-bold basis-6 '>12</div>
+      <div className='flex w-4 justify-center items-center text-moderate-blue font-bold basis-6 '>{score}</div>
       <div className='flex w-4 justify-center items-center basis-6 cursor-pointer' onMouseEnter={()=> setIconMinusToShow(IconMinusDark)} onMouseLeave={()=> setIconMinusToShow(IconMinus)}>
         <img src={iconMinusToShow} alt="minusIcon"  />
       </div>

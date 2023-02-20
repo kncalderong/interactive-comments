@@ -1,13 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Comment from './components/Comment'
 import TextInput from "./components/TextInput";
+import axios from 'axios'
+import { Comment as CommentType } from './types/Comment'
 
 function App() {
+  
+  const [comments, setComments] = useState<[]>([])
 
   const ininitalFetch = async () => {
-    const res = await fetch('/api/v1/comments')
-    const json = await res.json()
-    console.log(json)
+    try {
+      const res = await axios.get('/api/v1/comments')
+      setComments(res?.data?.comments)
+      console.log('res: ', res.data.comments);
+      
+    } catch (error) {
+      console.log('Error fetching comments: ', error)
+    }
   }
 
   useEffect(() => {
@@ -16,13 +25,11 @@ function App() {
 
   return (
     <div className="flex justify-start bg-very-light-gray flex-col items-center gap-4 py-8 min-h-screen sm:py-12">
-      <Comment isFromUser={false} isReply={false} />
-      <Comment isFromUser={true} isReply={false} />
-      {/*Example of replies */}
-      <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
-        <Comment isFromUser={false} isReply={true} />
-        <Comment isFromUser={true} isReply={true} />
-      </div>
+      {comments.map((commentData: CommentType) => {
+        return (
+          <Comment commentData={commentData}  isReply={false} key={commentData._id} />
+        )
+      })}
       <TextInput isEditing={false} isReplying={false} />
     </div>
   );
