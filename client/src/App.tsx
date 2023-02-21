@@ -4,8 +4,11 @@ import TextInput from "./components/TextInput";
 import axios from 'axios'
 import { Comment as CommentType } from './types/Comment'
 import Modal from "./components/Modal";
+import { useAppContext } from "./context/appContext";
 
 function App() {
+  
+  const {getComments} = useAppContext()
   
   const [comments, setComments] = useState<[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -27,6 +30,7 @@ function App() {
 
   useEffect(() => {
     ininitalFetch()
+    getComments()
   }, [])
 
   return (

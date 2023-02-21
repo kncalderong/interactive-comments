@@ -75,7 +75,7 @@ const Comment = (props: CommentProps) => {
       </div>
       {isReplying && <TextInput isEditing={false} isReplying={true} />}
       
-      {(answers !== undefined) && (
+      {(answers !== undefined && answers?.length > 0) && (
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
             return (
