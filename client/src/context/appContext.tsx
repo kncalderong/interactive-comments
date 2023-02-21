@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
-import {AppContextValue} from '../types/AppContext'
+import React, { useContext, useState, useEffect } from 'react'
+import { AppContextValue } from '../types/AppContext'
+import axios from 'axios'
 
 const AppContext = React.createContext<AppContextValue | undefined>(undefined) ;
 
@@ -7,16 +8,43 @@ type AppProviderProps = {
   children: React.ReactNode
 }
 
-const AppProvider = ({children}: AppProviderProps) => {
+const AppProvider = ({ children }: AppProviderProps) => {
+  
+  const [comments, setComments] = useState<[]>([])
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  
 
   const getComments = async () => {
-    console.log('get comments');
+    try {
+      const res = await axios.get('/api/v1/comments')
+      setComments(res?.data?.comments)
+      console.log('res: ', res.data.comments);
+      
+    } catch (error) {
+      console.log('Error fetching comments: ', error)
+    };
   }
+  
+  const toggleModal = (action: string) => {
+    if (action === 'open') {
+      setIsModalOpen(true)
+    } 
+    if (action === 'close') {
+      setIsModalOpen(false)
+    }
+  }
+  
+  useEffect(() => {
+    getComments()
+  }, [])
   
   return (
     <AppContext.Provider
       value={{
-        getComments
+        getComments,
+        comments,
+        isModalOpen,
+        toggleModal
       }}
     >
       {children} 

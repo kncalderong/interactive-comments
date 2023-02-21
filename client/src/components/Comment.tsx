@@ -6,11 +6,11 @@ import TextInput from './TextInput';
 import { Comment as CommentType } from '../types/Comment'
 import { Answer as AnswerType } from '../types/Comment'
 import currentUser from '../utils/CurrentUser';
+import { useAppContext } from "../context/appContext";
 
 type CommentProps = {
   isReply: boolean
   commentData: CommentType
-  toggleModal(): void
 }
 
 const Comment = (props: CommentProps) => {
@@ -23,8 +23,9 @@ const Comment = (props: CommentProps) => {
       user,
       answers
     },
-    toggleModal
   } = props
+  
+  const {toggleModal} = useAppContext()
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -37,7 +38,7 @@ const Comment = (props: CommentProps) => {
       setIsEditing(!isEditing)
     }
     if (action === 'deleteToggle') {
-      toggleModal()
+      toggleModal('open')
     }
   }
   console.log("createdAt: ", createdAt);
@@ -79,7 +80,7 @@ const Comment = (props: CommentProps) => {
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
             return (
-              <Comment isReply={true} commentData={answer} toggleModal={toggleModal} />
+              <Comment isReply={true} commentData={answer}/>
             )
           })}
         </div>
