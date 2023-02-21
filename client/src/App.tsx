@@ -37,9 +37,7 @@ function App() {
         )
       })}
       <TextInput isEditing={false} isReplying={false} />
-      <Modal isOpen={isModalOpen} onClose={()=>{setIsModalOpen(false)}} >
-        Delete comment
-      </Modal>
+      <Modal isOpen={isModalOpen} onClose={()=>{setIsModalOpen(false)}} />
     </div>
   );
 }
