@@ -7,6 +7,7 @@ import { Comment as CommentType } from '../types/Comment'
 import { Answer as AnswerType } from '../types/Comment'
 import currentUser from '../utils/CurrentUser';
 import { useAppContext } from "../context/appContext";
+import { getElapsedTime } from '../utils/elapsedTime';
 
 type CommentProps = {
   isReply: boolean
@@ -41,7 +42,7 @@ const Comment = (props: CommentProps) => {
       toggleModal('open')
     }
   }
-  console.log("createdAt: ", createdAt);
+
   return (
     <>
       <div className={`${isReply ? 'w-[95%]' : 'w-[90%]'} p-4 bg-white rounded-lg sm:max-w-[720px] sm:p-6 flex-col flex sm:flex-row-reverse `}>
@@ -60,7 +61,7 @@ const Comment = (props: CommentProps) => {
                 </p>)
               }
               <p className='text-grayish-blue '>
-                1 month ago
+                {getElapsedTime(createdAt)}
               </p>
             </div>
             <div >
@@ -80,7 +81,7 @@ const Comment = (props: CommentProps) => {
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
             return (
-              <Comment isReply={true} commentData={answer}/>
+              <Comment isReply={true} commentData={answer} key={answer._id}/>
             )
           })}
         </div>
