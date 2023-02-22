@@ -4,5 +4,6 @@ export type AppContextValue = {
   getComments: () => Promise<void>
   comments: CommentType[]
   isModalOpen: boolean
-  toggleModal: (action: string)=> void
+  toggleModal: (action: string) => void
+  isLoading: boolean
 }

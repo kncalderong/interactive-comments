@@ -15,8 +15,8 @@ const Modal = () => {
           <h2 className="text-dark-blue font-bold text-xl mb-3 " >Delete comment</h2>
           <p className="text-grayish-blue mb-5 " >Are you sure you want to delete this comment? This will remove the comment and can't be undone</p>
           <div className="flex gap-3 justify-center items-center" >
-            <div className="text-md rounded-lg text-white bg-grayish-blue uppercase px-5 py-3 flex grow justify-center items-center" onClick={() => toggleModal('close')} >No, Cancel</div>
-            <div className="text-md rounded-lg text-white bg-soft-red uppercase px-5 py-3 flex grow justify-center items-center" >Yes, Delete</div>
+            <div className="text-md rounded-lg text-white bg-grayish-blue uppercase px-5 py-3 flex grow justify-center items-center cursor-pointer " onClick={() => toggleModal('close')} >No, Cancel</div>
+            <div className="text-md rounded-lg text-white bg-soft-red uppercase px-5 py-3 flex grow justify-center items-center cursor-pointer" >Yes, Delete</div>
           </div>
         </div>
       </div>

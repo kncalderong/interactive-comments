@@ -13,7 +13,9 @@ module.exports = {
       'grayish-blue': 'hsl(211, 10%, 45%)',
       'light-gray': 'hsl(223, 19%, 93%)',
       'very-light-gray': 'hsl(228, 33%, 97%)',
-      'white': 'hsl(0, 0%, 100%)'
+      'white': 'hsl(0, 0%, 100%)',
+      'purple-700': 'rgb(126 34 206)',
+      'purple-200':'rgb(233 213 255)'
     },
     extend: {
       fontFamily: {

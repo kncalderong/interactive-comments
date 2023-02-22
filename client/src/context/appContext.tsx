@@ -12,13 +12,13 @@ const AppProvider = ({ children }: AppProviderProps) => {
   
   const [comments, setComments] = useState<[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   
 
   const getComments = async () => {
     try {
       const res = await axios.get('/api/v1/comments')
       setComments(res?.data?.comments)
-      console.log('res: ', res.data.comments);
       
     } catch (error) {
       console.log('Error fetching comments: ', error)
@@ -44,7 +44,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         getComments,
         comments,
         isModalOpen,
-        toggleModal
+        toggleModal,
+        isLoading
       }}
     >
       {children} 
