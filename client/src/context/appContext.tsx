@@ -33,6 +33,24 @@ const AppProvider = ({ children }: AppProviderProps) => {
       setIsModalOpen(false)
     }
   }
+
+  const createComment = async (user: string, text: string) => {
+    setIsLoading(true)
+    const objToSubmit = {
+      user,
+      score: 0,
+      text,
+      answers:[]
+    }
+    try {
+      await axios.post('/api/v1/comments', objToSubmit)
+      getComments()
+      setIsLoading(false)
+    } catch (error) {
+      console.log('error creating comment: ', error);
+      setIsLoading(false)
+    }
+  }
   
   useEffect(() => {
     getComments()
@@ -45,7 +63,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         comments,
         isModalOpen,
         toggleModal,
-        isLoading
+        isLoading,
+        createComment
       }}
     >
       {children} 

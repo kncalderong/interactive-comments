@@ -1,5 +1,7 @@
 
 import currentUser from "../utils/CurrentUser"
+import { useAppContext } from "../context/appContext";
+import { useState } from "react";
 
 type TextInputProps = {
   isEditing: boolean
@@ -9,10 +11,22 @@ type TextInputProps = {
 
 const TextInput = (props: TextInputProps) => {
 
-  const { isEditing, isReplying, initialText } = props
+  const { isEditing, isReplying, initialText = '' } = props
+  const [textInput, setTextInput] = useState<string>(initialText)
+  
+  const { createComment } = useAppContext()
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    if (!isEditing && !isReplying) {
+      createComment(currentUser._id, textInput)
+      return
+    } 
+    
+  }
+  
+  const handleTextChange = (e: any) => {
+    setTextInput(e.target.value)
   }
 
   return (
@@ -22,7 +36,7 @@ const TextInput = (props: TextInputProps) => {
           <img src={currentUser.image } alt="userImage" className="w-full block" />
         </div>)}
       <div className={`mb-2 sm:grow ${isEditing && 'w-[100%]'}`} >
-        <textarea name="contentText" id="contentText" cols={30} rows={isEditing ? 4 : 3} placeholder="Add a comment..." className="resize-none focus-visible:outline-none border-light-gray rounded-md border-2 w-[100%] px-5 py-2 placeholder-grayish-blue text-grayish-blue  " defaultValue={(initialText !== undefined) ? initialText : ''}  ></textarea>
+        <textarea name="contentText" id="contentText" cols={30} rows={isEditing ? 4 : 3} placeholder="Add a comment..." className="resize-none focus-visible:outline-none border-light-gray rounded-md border-2 w-[100%] px-5 py-2 placeholder-grayish-blue text-grayish-blue  " value={textInput} onChange={handleTextChange} ></textarea>
       </div>
       <div className={ `flex  items-center ${isEditing ? 'mb-2 justify-end' : 'justify-between'}`} >
         {!isEditing && (

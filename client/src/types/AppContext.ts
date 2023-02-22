@@ -6,4 +6,5 @@ export type AppContextValue = {
   isModalOpen: boolean
   toggleModal: (action: string) => void
   isLoading: boolean
+  createComment: (user: string, text: string) => Promise<void>
 }
