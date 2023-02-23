@@ -13,6 +13,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
   const [comments, setComments] = useState<[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [idCommentSelected, setIdCommentSelected] = useState<string>('')
   
 
   const getComments = async () => {
@@ -44,7 +45,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
     }
     try {
       await axios.post('/api/v1/comments', objToSubmit)
-      getComments()
+      await getComments()
       setIsLoading(false)
     } catch (error) {
       console.log('error creating comment: ', error);
@@ -52,6 +53,20 @@ const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
   
+  const deleteComment = async () => {
+    setIsLoading(true)
+    try {
+      await axios.delete(`/api/v1/comments/${idCommentSelected}`)
+      await getComments()
+      setIsModalOpen(false)
+      setIsLoading(false)
+    } catch (error) {
+      console.log('error deleting comment: ', error);
+      setIsModalOpen(false)
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
     getComments()
   }, [])
@@ -59,12 +74,13 @@ const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <AppContext.Provider
       value={{
-        getComments,
         comments,
         isModalOpen,
         toggleModal,
         isLoading,
-        createComment
+        createComment,
+        deleteComment,
+        setIdCommentSelected
       }}
     >
       {children} 

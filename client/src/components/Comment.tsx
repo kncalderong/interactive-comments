@@ -22,16 +22,18 @@ const Comment = (props: CommentProps) => {
       score,
       text,
       user,
-      answers
+      answers,
+      _id
     },
   } = props
   
-  const {toggleModal} = useAppContext()
+  const {toggleModal, setIdCommentSelected} = useAppContext()
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
   const toggleUserAction = (action: string) => {
+    setIdCommentSelected(_id)
     if (action === 'replyToggle') {
       setIsReplying(!isReplying)
     }

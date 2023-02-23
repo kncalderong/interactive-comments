@@ -3,7 +3,7 @@ import { useAppContext } from "../context/appContext";
 
 const Modal = () => {
   
-  const {isModalOpen, toggleModal } = useAppContext()
+  const {isModalOpen, toggleModal, deleteComment } = useAppContext()
 
   if (!isModalOpen) return null
 
@@ -16,7 +16,7 @@ const Modal = () => {
           <p className="text-grayish-blue mb-5 " >Are you sure you want to delete this comment? This will remove the comment and can't be undone</p>
           <div className="flex gap-3 justify-center items-center" >
             <div className="text-md rounded-lg text-white bg-grayish-blue uppercase px-5 py-3 flex grow justify-center items-center cursor-pointer " onClick={() => toggleModal('close')} >No, Cancel</div>
-            <div className="text-md rounded-lg text-white bg-soft-red uppercase px-5 py-3 flex grow justify-center items-center cursor-pointer" >Yes, Delete</div>
+            <div className="text-md rounded-lg text-white bg-soft-red uppercase px-5 py-3 flex grow justify-center items-center cursor-pointer" onClick={()=> deleteComment()} >Yes, Delete</div>
           </div>
         </div>
       </div>
