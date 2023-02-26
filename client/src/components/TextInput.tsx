@@ -2,7 +2,7 @@
 import currentUser from "../utils/CurrentUser"
 import { useAppContext } from "../context/appContext";
 import { useState } from "react";
-import { Comment as CommentType } from '../types/Comment'
+import { Comment as CommentType, updateInput as updateInputType} from '../types/Comment'
 
 type TextInputProps = {
   isEditing: boolean
@@ -17,23 +17,43 @@ const TextInput = (props: TextInputProps) => {
   const { isEditing, isReplying, initialText = '', commentData, isReply } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
-  const { createComment, updateComment } = useAppContext()
+  const { createComment, updateComment, idCommentSelected } = useAppContext()
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    
+    //create new comment
     if (!isEditing && !isReplying) {
       createComment(currentUser._id, textInput)
       return
     } 
     
+    //edit comment
     if (isEditing && !isReply) {
-
-    let objToEdit = {
+      const prevAnswers = commentData?.answers || []
+      const objToEdit: updateInputType = {
       text: textInput,
       score: (commentData?.score ? commentData?.score : 0),
-      answers: commentData?.answers
+      answers: [...prevAnswers]
       }
       updateComment(objToEdit)
+    }
+    
+    //create a new reply
+    if (!isEditing && isReplying && !isReply) {
+
+      const prevComments = commentData?.answers || []; 
+    
+      const newReply: updateInputType = {
+        text: commentData?.text || '' ,
+        score: (commentData?.score ? commentData?.score : 0),
+        answers: [...prevComments, {
+          user: currentUser._id,
+          text: textInput,
+          score: 0
+        }]
+      } 
+      updateComment(newReply)
     }
   
   }

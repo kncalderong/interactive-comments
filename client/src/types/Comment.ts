@@ -24,5 +24,11 @@ export type User = {
 export type updateInput = {
   text: string
   score: number
-  answers?: [Answer]
+  answers?: {
+    text: string
+    score: number
+    user: string | User
+    _id?: string
+    createdAt?: string
+  }[] | []
 }

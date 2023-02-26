@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { updateInput as updateInputType } from '../types/Comment'
 import { AppContextValue } from '../types/AppContext'
+import { updateInput as updateInputType } from '../types/Comment';
 import axios from 'axios'
 
 const AppContext = React.createContext<AppContextValue | undefined>(undefined) ;
@@ -78,11 +78,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
     
     setIsLoading(true)
     try {
-      console.log('newComment: ', newComment);
-      
-      const res = await axios.patch(`/api/v1/comments/${idCommentSelected}`, newComment)
-      console.log('res:', res);
-      
+      await axios.patch(`/api/v1/comments/${idCommentSelected}`, newComment)
       await getComments()
       setIsLoading(false)      
     } catch (error) {
@@ -105,7 +101,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         createComment,
         deleteComment,
         setIdCommentSelected,
-        updateComment
+        updateComment,
+        idCommentSelected
       }}
     >
       {children} 
