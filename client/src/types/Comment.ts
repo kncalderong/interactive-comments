@@ -21,3 +21,8 @@ export type User = {
   name: string
 }
 
+export type updateInput = {
+  text: string
+  score: number
+  answers?: [Answer]
+}

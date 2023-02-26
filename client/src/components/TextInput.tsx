@@ -2,19 +2,22 @@
 import currentUser from "../utils/CurrentUser"
 import { useAppContext } from "../context/appContext";
 import { useState } from "react";
+import { Comment as CommentType } from '../types/Comment'
 
 type TextInputProps = {
   isEditing: boolean
   isReplying: boolean
   initialText?: string
+  commentData?: CommentType
+  isReply: boolean
 }
 
 const TextInput = (props: TextInputProps) => {
 
-  const { isEditing, isReplying, initialText = '' } = props
+  const { isEditing, isReplying, initialText = '', commentData, isReply } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
-  const { createComment } = useAppContext()
+  const { createComment, updateComment } = useAppContext()
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -23,6 +26,16 @@ const TextInput = (props: TextInputProps) => {
       return
     } 
     
+    if (isEditing && !isReply) {
+
+    let objToEdit = {
+      text: textInput,
+      score: (commentData?.score ? commentData?.score : 0),
+      answers: commentData?.answers
+      }
+      updateComment(objToEdit)
+    }
+  
   }
   
   const handleTextChange = (e: any) => {

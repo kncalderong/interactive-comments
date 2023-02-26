@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { updateInput as updateInputType } from '../types/Comment'
 import { AppContextValue } from '../types/AppContext'
 import axios from 'axios'
 
@@ -67,6 +68,29 @@ const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
 
+  const updateComment = async ({ text, score, answers }: updateInputType) => {
+    
+    const newComment = {
+      text,
+      score,
+      answers
+    }
+    
+    setIsLoading(true)
+    try {
+      console.log('newComment: ', newComment);
+      
+      const res = await axios.patch(`/api/v1/comments/${idCommentSelected}`, newComment)
+      console.log('res:', res);
+      
+      await getComments()
+      setIsLoading(false)      
+    } catch (error) {
+      console.log('error updating comment: ', error);
+      setIsLoading(false)
+    }
+  } 
+
   useEffect(() => {
     getComments()
   }, [])
@@ -80,7 +104,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         isLoading,
         createComment,
         deleteComment,
-        setIdCommentSelected
+        setIdCommentSelected,
+        updateComment
       }}
     >
       {children} 

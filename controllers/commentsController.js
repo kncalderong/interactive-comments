@@ -41,12 +41,13 @@ const createComment = async (req, res) => {
 const updateComment = async (req, res) => {
   const { id: commentId } = req.params
   const {
-    text: commentText,
-    score: commentScore,
+    text,
+    score,
     answers
   } = req.body
 
-  if (!commentText || !commentScore || !answers) {
+  if (!text || score === undefined || !answers) {
+
     throw new BadRequestError('Please provide all values');
   }
 
@@ -58,8 +59,8 @@ const updateComment = async (req, res) => {
 
   answers.user = mongoose.Types.ObjectId(answers.user)
   const updatedComment = await Comment.findOneAndUpdate({ _id: commentId }, {
-    commentText,
-    commentScore,
+    text,
+    score,
     answers
   }, {
     new: true,
