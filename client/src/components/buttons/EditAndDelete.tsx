@@ -2,7 +2,7 @@ import { IconDelete, IconEdit } from '../../assets/index.js';
 
 type EditAndDeleteProps = {
   inMobile: boolean
-  toggleUserAction(action:string ): void 
+  toggleUserAction(action:string ): void
 }
 
 const EditAndDelete = (props: EditAndDeleteProps) => {

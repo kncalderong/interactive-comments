@@ -1,5 +1,4 @@
-import { Comment as CommentType } from '../types/Comment'
-import { updateInput as updateInputType } from '../types/Comment'
+import { updateInput as updateInputType, isHandlingReplyType, Comment as CommentType  } from '../types/Comment'
 
 export type AppContextValue = {
   comments: CommentType[]
@@ -7,8 +6,9 @@ export type AppContextValue = {
   toggleModal: (action: string) => void
   isLoading: boolean
   createComment: (user: string, text: string) => Promise<void>
-  deleteComment: (idCommentSelected: string) => Promise<void>
+  deleteComment: () => Promise<void>
   updateComment: ({ text, score, answers }: updateInputType, idCommentSelected: string) => Promise<void>
   selectedCommentInfo: CommentType
   setSelectedCommentInfo: React.Dispatch<React.SetStateAction<CommentType>>
+  setIsHandlingReply: React.Dispatch<React.SetStateAction<isHandlingReplyType>>
 }

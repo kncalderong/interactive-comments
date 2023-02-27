@@ -28,7 +28,7 @@ const Comment = (props: CommentProps) => {
     },
   } = props
   
-  const {toggleModal, setSelectedCommentInfo} = useAppContext()
+  const {toggleModal, setSelectedCommentInfo, setIsHandlingReply} = useAppContext()
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -42,6 +42,19 @@ const Comment = (props: CommentProps) => {
       }
       return props.commentData
     })
+    setIsHandlingReply(() => {
+      if (isReply) {
+        return {
+          isHandlingReply: true,
+          idReply: _id
+        }
+      }
+      return {
+        isHandlingReply: false,
+        idReply: ''
+      }
+    })
+    
     if (action === 'replyToggle') {
       setIsReplying(!isReplying)
     }

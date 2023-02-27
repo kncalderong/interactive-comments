@@ -32,3 +32,9 @@ export type updateInput = {
     createdAt?: string
   }[] | []
 }
+
+
+export type isHandlingReplyType = {
+  isHandlingReply: boolean
+  idReply: string
+}
