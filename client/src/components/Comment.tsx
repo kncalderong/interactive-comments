@@ -12,6 +12,7 @@ import { getElapsedTime } from '../utils/elapsedTime';
 type CommentProps = {
   isReply: boolean
   commentData: CommentType
+  parentData: CommentType | null
 }
 
 const Comment = (props: CommentProps) => {
@@ -23,17 +24,16 @@ const Comment = (props: CommentProps) => {
       text,
       user,
       answers,
-      _id
     },
   } = props
   
-  const {toggleModal, setIdCommentSelected} = useAppContext()
+  const {toggleModal, setSelectedCommentInfo} = useAppContext()
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
   const toggleUserAction = (action: string) => {
-    setIdCommentSelected(_id)
+    setSelectedCommentInfo(isReply ? props.parentData : props.commentData )
     if (action === 'replyToggle') {
       setIsReplying(!isReplying)
     }
@@ -77,13 +77,13 @@ const Comment = (props: CommentProps) => {
           {(user._id === currentUser._id) ? <EditAndDelete inMobile={true} toggleUserAction={toggleUserAction} /> : <Reply inMobile={true} toggleUserAction={toggleUserAction} />}
         </div>
       </div>
-      {isReplying && <TextInput isEditing={false} isReplying={true} commentData={props.commentData} isReply={isReply} />}
+      {isReplying && <TextInput isEditing={false} isReplying={true} commentData={props.commentData} isReply={isReply}  />}
       
       {(answers !== undefined && answers?.length > 0) && (
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
             return (
-              <Comment isReply={true} commentData={answer} key={answer._id}/>
+              <Comment isReply={true} commentData={answer} key={answer._id} parentData={props.commentData} />
             )
           })}
         </div>

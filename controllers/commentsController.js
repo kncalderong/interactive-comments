@@ -37,7 +37,7 @@ const createComment = async (req, res) => {
   })
 }
 
-//Add reply || editComment || addScore || addScoreInReply || deleteReply
+//Add reply || editComment || addScore || editReply || addScoreInReply || deleteReply
 const updateComment = async (req, res) => {
   const { id: commentId } = req.params
   const {

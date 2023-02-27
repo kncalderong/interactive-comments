@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContextValue } from '../types/AppContext'
-import { updateInput as updateInputType } from '../types/Comment';
+import { updateInput as updateInputType, Comment as CommentType } from '../types/Comment';
 import axios from 'axios'
 
 const AppContext = React.createContext<AppContextValue | undefined>(undefined) ;
@@ -14,7 +14,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
   const [comments, setComments] = useState<[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [idCommentSelected, setIdCommentSelected] = useState<string>('')
+  const [selectedCommentInfo, setSelectedCommentInfo] = useState<null | CommentType>(null)
   
 
   const getComments = async () => {
@@ -54,7 +54,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
   
-  const deleteComment = async () => {
+  const deleteComment = async (idCommentSelected: string) => {
     setIsLoading(true)
     try {
       await axios.delete(`/api/v1/comments/${idCommentSelected}`)
@@ -68,7 +68,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
     }
   }
 
-  const updateComment = async ({ text, score, answers }: updateInputType) => {
+  const updateComment = async ({ text, score, answers }: updateInputType, idCommentSelected: string) => {
     
     const newComment = {
       text,
@@ -100,9 +100,9 @@ const AppProvider = ({ children }: AppProviderProps) => {
         isLoading,
         createComment,
         deleteComment,
-        setIdCommentSelected,
         updateComment,
-        idCommentSelected
+        selectedCommentInfo,
+        setSelectedCommentInfo
       }}
     >
       {children} 

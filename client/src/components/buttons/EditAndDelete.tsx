@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconDelete, IconEdit } from '../../assets/index.js';
 
 type EditAndDeleteProps = {

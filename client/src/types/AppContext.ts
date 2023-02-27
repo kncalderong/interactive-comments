@@ -7,8 +7,8 @@ export type AppContextValue = {
   toggleModal: (action: string) => void
   isLoading: boolean
   createComment: (user: string, text: string) => Promise<void>
-  deleteComment: () => Promise<void>
-  setIdCommentSelected: React.Dispatch<React.SetStateAction<string>>
-  updateComment: ({ text, score, answers }: updateInputType) => Promise<void>
-  idCommentSelected: string
+  deleteComment: (idCommentSelected: string) => Promise<void>
+  updateComment: ({ text, score, answers }: updateInputType, idCommentSelected: string) => Promise<void>
+  selectedCommentInfo: CommentType | null
+  setSelectedCommentInfo: React.Dispatch<React.SetStateAction<CommentType | null>>
 }

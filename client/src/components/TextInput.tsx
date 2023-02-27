@@ -17,7 +17,7 @@ const TextInput = (props: TextInputProps) => {
   const { isEditing, isReplying, initialText = '', commentData, isReply } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
-  const { createComment, updateComment, idCommentSelected } = useAppContext()
+  const { createComment, updateComment, selectedCommentInfo } = useAppContext()
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -31,19 +31,19 @@ const TextInput = (props: TextInputProps) => {
     //edit comment
     if (isEditing && !isReply) {
       const prevAnswers = commentData?.answers || []
+      const idCommentSelected = selectedCommentInfo?._id || ''
       const objToEdit: updateInputType = {
       text: textInput,
       score: (commentData?.score ? commentData?.score : 0),
       answers: [...prevAnswers]
       }
-      updateComment(objToEdit)
+      updateComment(objToEdit, idCommentSelected)
     }
     
     //create a new reply
     if (!isEditing && isReplying && !isReply) {
-
-      const prevComments = commentData?.answers || []; 
-    
+      const prevComments = commentData?.answers || [];
+      const idCommentSelected = selectedCommentInfo?._id || ''      
       const newReply: updateInputType = {
         text: commentData?.text || '' ,
         score: (commentData?.score ? commentData?.score : 0),
@@ -53,7 +53,15 @@ const TextInput = (props: TextInputProps) => {
           score: 0
         }]
       } 
-      updateComment(newReply)
+      updateComment(newReply, idCommentSelected)
+    }
+    
+    //edit reply
+    if (isEditing && isReply) {
+      
+      console.log('this is the reply: ', commentData);
+      console.log('this is the parent: ', selectedCommentInfo);
+      
     }
   
   }

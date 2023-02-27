@@ -17,7 +17,7 @@ function App() {
         <>
           {comments.map((commentData: CommentType) => {
             return (
-              <Comment commentData={commentData} isReply={false} key={commentData._id} />
+              <Comment commentData={commentData} isReply={false} key={commentData._id} parentData={null} />
             )
           })}
             <TextInput isEditing={false} isReplying={false} isReply={false} />
