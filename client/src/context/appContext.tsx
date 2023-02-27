@@ -145,7 +145,8 @@ const AppProvider = ({ children }: AppProviderProps) => {
         updateComment,
         selectedCommentInfo,
         setSelectedCommentInfo,
-        setIsHandlingReply
+        isHandlingReply,
+        setIsHandlingReply        
       }}
     >
       {children}

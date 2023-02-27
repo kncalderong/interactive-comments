@@ -9,15 +9,14 @@ type TextInputProps = {
   isReplying: boolean
   initialText?: string
   isReply: boolean
-  id: string
 }
 
 const TextInput = (props: TextInputProps) => {
 
-  const { isEditing, isReplying, initialText = '', isReply, id } = props
+  const { isEditing, isReplying, initialText = '', isReply } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
-  const { createComment, updateComment, selectedCommentInfo } = useAppContext()
+  const { createComment, updateComment, selectedCommentInfo, isHandlingReply } = useAppContext()
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -72,10 +71,10 @@ const TextInput = (props: TextInputProps) => {
       let commentWithNewReply = {...selectedCommentInfo}     
       if (commentWithNewReply.answers) {
         let replyToEdit = commentWithNewReply.answers.find((element: AnswerType) => {
-          return element._id === id
+          return element._id === isHandlingReply.idReply
         })
         const targetIndex = commentWithNewReply.answers.findIndex((element: AnswerType) => {
-          return element._id === id
+          return element._id === isHandlingReply.idReply
         })
         if (replyToEdit) {
           replyToEdit.text = textInput

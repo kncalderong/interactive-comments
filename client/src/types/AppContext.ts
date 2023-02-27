@@ -10,5 +10,6 @@ export type AppContextValue = {
   updateComment: ({ text, score, answers }: updateInputType, idCommentSelected: string) => Promise<void>
   selectedCommentInfo: CommentType
   setSelectedCommentInfo: React.Dispatch<React.SetStateAction<CommentType>>
+  isHandlingReply: isHandlingReplyType
   setIsHandlingReply: React.Dispatch<React.SetStateAction<isHandlingReplyType>>
 }

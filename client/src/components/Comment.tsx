@@ -91,14 +91,14 @@ const Comment = (props: CommentProps) => {
               {(user._id === currentUser._id) ? <EditAndDelete inMobile={false} toggleUserAction={toggleUserAction} /> : <Reply inMobile={false} toggleUserAction={toggleUserAction} />}
             </div>
           </div>
-          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text}  isReply={isReply} id={_id} /> : <div className='text-grayish-blue mb-4' >{text}</div> }
+          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text}  isReply={isReply}/> : <div className='text-grayish-blue mb-4' >{text}</div> }
         </div>
         <div className='flex justify-between' >
           <SelectQuantity score={score} />
           {(user._id === currentUser._id) ? <EditAndDelete inMobile={true} toggleUserAction={toggleUserAction} /> : <Reply inMobile={true} toggleUserAction={toggleUserAction} />}
         </div>
       </div>
-      {isReplying && <TextInput isEditing={false} isReplying={true}  isReply={isReply} id={_id}  />}
+      {isReplying && <TextInput isEditing={false} isReplying={true}  isReply={isReply}/>}
       
       {(answers !== undefined && answers?.length > 0) && (
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
