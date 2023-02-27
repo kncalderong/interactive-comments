@@ -14,7 +14,17 @@ const AppProvider = ({ children }: AppProviderProps) => {
   const [comments, setComments] = useState<[]>([])
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedCommentInfo, setSelectedCommentInfo] = useState<null | CommentType>(null)
+  const [selectedCommentInfo, setSelectedCommentInfo] = useState<CommentType>({
+    _id: '',
+    createdAt: '',
+    score: 0,
+    text: '',
+    user: {
+      _id: '',
+      image: '',
+      name: ''
+    }
+  })
   
 
   const getComments = async () => {

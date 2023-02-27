@@ -2,19 +2,18 @@
 import currentUser from "../utils/CurrentUser"
 import { useAppContext } from "../context/appContext";
 import { useState } from "react";
-import { Comment as CommentType, updateInput as updateInputType} from '../types/Comment'
+import { updateInput as updateInputType} from '../types/Comment'
 
 type TextInputProps = {
   isEditing: boolean
   isReplying: boolean
   initialText?: string
-  commentData?: CommentType
   isReply: boolean
 }
 
 const TextInput = (props: TextInputProps) => {
 
-  const { isEditing, isReplying, initialText = '', commentData, isReply } = props
+  const { isEditing, isReplying, initialText = '', isReply } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
   const { createComment, updateComment, selectedCommentInfo } = useAppContext()
@@ -30,36 +29,45 @@ const TextInput = (props: TextInputProps) => {
     
     //edit comment
     if (isEditing && !isReply) {
-      const prevAnswers = commentData?.answers || []
-      const idCommentSelected = selectedCommentInfo?._id || ''
+      const {
+        score = 0,
+        _id,
+        answers = []
+      } = selectedCommentInfo
+      
       const objToEdit: updateInputType = {
       text: textInput,
-      score: (commentData?.score ? commentData?.score : 0),
-      answers: [...prevAnswers]
+      score,
+      answers: [...answers]
       }
-      updateComment(objToEdit, idCommentSelected)
+      updateComment(objToEdit, _id)
     }
     
     //create a new reply
     if (!isEditing && isReplying && !isReply) {
-      const prevComments = commentData?.answers || [];
-      const idCommentSelected = selectedCommentInfo?._id || ''      
+      
+      const {
+        text,
+        score = 0,
+        _id,
+        answers = []
+      } = selectedCommentInfo
+
       const newReply: updateInputType = {
-        text: commentData?.text || '' ,
-        score: (commentData?.score ? commentData?.score : 0),
-        answers: [...prevComments, {
+        text ,
+        score,
+        answers: [...answers, {
           user: currentUser._id,
           text: textInput,
           score: 0
         }]
       } 
-      updateComment(newReply, idCommentSelected)
+      updateComment(newReply, _id)
     }
     
     //edit reply
     if (isEditing && isReply) {
-      
-      console.log('this is the reply: ', commentData);
+
       console.log('this is the parent: ', selectedCommentInfo);
       
     }

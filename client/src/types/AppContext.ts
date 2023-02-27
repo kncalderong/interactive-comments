@@ -9,6 +9,6 @@ export type AppContextValue = {
   createComment: (user: string, text: string) => Promise<void>
   deleteComment: (idCommentSelected: string) => Promise<void>
   updateComment: ({ text, score, answers }: updateInputType, idCommentSelected: string) => Promise<void>
-  selectedCommentInfo: CommentType | null
-  setSelectedCommentInfo: React.Dispatch<React.SetStateAction<CommentType | null>>
+  selectedCommentInfo: CommentType
+  setSelectedCommentInfo: React.Dispatch<React.SetStateAction<CommentType>>
 }
