@@ -27,8 +27,8 @@ const Comment = (props: CommentProps) => {
       _id
     },
   } = props
-  
-  const {toggleModal, setSelectedCommentInfo, setIsHandlingReply} = useAppContext()
+
+  const { toggleModal, setSelectedCommentInfo, setIsHandlingReply, updateComment } = useAppContext()
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -54,7 +54,7 @@ const Comment = (props: CommentProps) => {
         idReply: ''
       }
     })
-    
+
     if (action === 'replyToggle') {
       setIsReplying(!isReplying)
     }
@@ -63,6 +63,39 @@ const Comment = (props: CommentProps) => {
     }
     if (action === 'deleteToggle') {
       toggleModal('open')
+    }
+  }
+
+  //to update quantity score
+  const handleScore = (action: 'plus' | 'minus') => {
+    if ((score > 99 && action === 'plus') || (score < 1 && action === 'minus')) { // score boundaries added
+      return
+    }
+    if (isReply) {
+      const idOfCommentParent = props.parentData?._id || ''
+      if (props.parentData) {
+        let commentWithNewReply = { ...props.parentData }
+        if (commentWithNewReply.answers) {
+          let replyToEdit = commentWithNewReply.answers.find((element: AnswerType) => {
+            return element._id === _id
+          })
+          const targetIndex = commentWithNewReply.answers.findIndex((element: AnswerType) => {
+            return element._id === _id
+          })
+          if (replyToEdit) {
+            replyToEdit.score = action === 'plus' ? score + 1 : score - 1
+            commentWithNewReply.answers[targetIndex] = replyToEdit
+            updateComment(commentWithNewReply, idOfCommentParent)
+          }
+        }
+      }
+    }
+    if (!isReply) {      
+      let commentWithNewScore = {
+        ...props.commentData,
+        score:  action === 'plus' ? score + 1 : score - 1
+      }
+      updateComment(commentWithNewScore, _id)
     }
   }
 
@@ -91,15 +124,15 @@ const Comment = (props: CommentProps) => {
               {(user._id === currentUser._id) ? <EditAndDelete inMobile={false} toggleUserAction={toggleUserAction} /> : <Reply inMobile={false} toggleUserAction={toggleUserAction} />}
             </div>
           </div>
-          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text}  isReply={isReply}/> : <div className='text-grayish-blue mb-4' >{text}</div> }
+          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text} isReply={isReply} /> : <div className='text-grayish-blue mb-4' >{text}</div>}
         </div>
         <div className='flex justify-between' >
-          <SelectQuantity score={score} />
+          <SelectQuantity score={score} handleScore={handleScore} />
           {(user._id === currentUser._id) ? <EditAndDelete inMobile={true} toggleUserAction={toggleUserAction} /> : <Reply inMobile={true} toggleUserAction={toggleUserAction} />}
         </div>
       </div>
-      {isReplying && <TextInput isEditing={false} isReplying={true}  isReply={isReply}/>}
-      
+      {isReplying && <TextInput isEditing={false} isReplying={true} isReply={isReply} />}
+
       {(answers !== undefined && answers?.length > 0) && (
         <div className="w-[90%] justify-start flex flex-col items-end gap-4 border-l-2 border-l-light-gray sm:max-w-[685px] sm:ml-[35px]">
           {answers?.map((answer: AnswerType) => {
