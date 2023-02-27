@@ -2,18 +2,19 @@
 import currentUser from "../utils/CurrentUser"
 import { useAppContext } from "../context/appContext";
 import { useState } from "react";
-import { updateInput as updateInputType} from '../types/Comment'
+import { updateInput as updateInputType, Answer as AnswerType } from '../types/Comment'
 
 type TextInputProps = {
   isEditing: boolean
   isReplying: boolean
   initialText?: string
   isReply: boolean
+  id: string
 }
 
 const TextInput = (props: TextInputProps) => {
 
-  const { isEditing, isReplying, initialText = '', isReply } = props
+  const { isEditing, isReplying, initialText = '', isReply, id } = props
   const [textInput, setTextInput] = useState<string>(initialText)
   
   const { createComment, updateComment, selectedCommentInfo } = useAppContext()
@@ -68,10 +69,21 @@ const TextInput = (props: TextInputProps) => {
     //edit reply
     if (isEditing && isReply) {
 
-      console.log('this is the parent: ', selectedCommentInfo);
-      
+      let commentWithNewReply = {...selectedCommentInfo}     
+      if (commentWithNewReply.answers) {
+        let replyToEdit = commentWithNewReply.answers.find((element: AnswerType) => {
+          return element._id === id
+        })
+        const targetIndex = commentWithNewReply.answers.findIndex((element: AnswerType) => {
+          return element._id === id
+        })
+        if (replyToEdit) {
+          replyToEdit.text = textInput
+          commentWithNewReply.answers[targetIndex] = replyToEdit 
+          updateComment(commentWithNewReply, selectedCommentInfo._id)
+        }
+      }
     }
-  
   }
   
   const handleTextChange = (e: any) => {

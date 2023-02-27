@@ -20,7 +20,7 @@ function App() {
               <Comment commentData={commentData} isReply={false} key={commentData._id} parentData={null} />
             )
           })}
-            <TextInput isEditing={false} isReplying={false} isReply={false} />
+            <TextInput isEditing={false} isReplying={false} isReply={false} id={''} />
           <Modal />
         </>
       )}
