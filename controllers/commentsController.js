@@ -94,20 +94,21 @@ const getAllComments = async (req, res) => {
   
   if (search) {
     queryObject.text = { $regex: search, $options: 'i' };
+
   }
   
-  //to populate with users Info from another collection of documents 'User'
+  //to populate with users' Info from another collection of documents 'User'
   let result = Comment.find(queryObject).populate('user').populate({
     path: 'answers',
     populate: { path: 'user'}
   })
   
   //To sort
-  if (sort === 'latest') {
-    result = result.sort('-createdAt');
+  if (sort === 'higher') {
+    result = result.sort('-score');
   }
-  if (sort === 'oldest') {
-    result = result.sort('createdAt');
+  if (sort === 'lower') {
+    result = result.sort('score');
   }
   
   //Pagination

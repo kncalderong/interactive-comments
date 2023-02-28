@@ -35,7 +35,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
 
   const getComments = async () => {
     try {
-      const res = await axios.get('/api/v1/comments')
+      const res = await axios.get('/api/v1/comments?sort=higher')
       setComments(res?.data?.comments)
 
     } catch (error) {
@@ -101,23 +101,18 @@ const AppProvider = ({ children }: AppProviderProps) => {
             console.log('error deleting reply: ', error);
             setIsModalOpen(false)
             setIsLoading(false)
-          }
-          
+          }          
         }
       }
     }
-
-
   }
 
   const updateComment = async ({ text, score, answers }: updateInputType, idCommentSelected: string) => {
-
     const newComment = {
       text,
       score,
       answers
     }
-
     setIsLoading(true)
     try {
       await axios.patch(`/api/v1/comments/${idCommentSelected}`, newComment)
