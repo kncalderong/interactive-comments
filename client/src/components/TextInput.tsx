@@ -96,7 +96,7 @@ const TextInput = (props: TextInputProps) => {
           <img src={currentUser.image } alt="userImage" className="w-full block" />
         </div>)}
       <div className={`mb-2 sm:grow ${isEditing && 'w-[100%]'}`} >
-        <textarea name="contentText" id="contentText" cols={30} rows={isEditing ? 4 : 3} placeholder="Add a comment..." className="resize-none focus-visible:outline-none border-light-gray rounded-md border-2 w-[100%] px-5 py-2 placeholder-grayish-blue text-grayish-blue  " value={textInput} onChange={handleTextChange} ></textarea>
+        <textarea name="contentText" id="contentText" cols={30} rows={isEditing ? 4 : 3} placeholder="Add a comment..." className="resize-none focus-visible:outline-none border-light-gray rounded-md border-2 w-[100%] px-5 py-2 placeholder-grayish-blue text-grayish-blue focus:border-dark-blue focus:border-[1px] " value={textInput} onChange={handleTextChange} ></textarea>
       </div>
       <div className={ `flex  items-center ${isEditing ? 'mb-2 justify-end' : 'justify-between'}`} >
         {!isEditing && (
