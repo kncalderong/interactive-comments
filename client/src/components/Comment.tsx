@@ -8,6 +8,7 @@ import { Answer as AnswerType } from '../types/Comment'
 import currentUser from '../utils/CurrentUser';
 import { useAppContext } from "../context/appContext";
 import { getElapsedTime } from '../utils/elapsedTime';
+import splitAndStyle from '../utils/SplitAndStyle';
 
 type CommentProps = {
   isReply: boolean
@@ -90,15 +91,15 @@ const Comment = (props: CommentProps) => {
         }
       }
     }
-    if (!isReply) {      
+    if (!isReply) {
       let commentWithNewScore = {
         ...props.commentData,
-        score:  action === 'plus' ? score + 1 : score - 1
+        score: action === 'plus' ? score + 1 : score - 1
       }
       updateComment(commentWithNewScore, _id)
     }
   }
-
+  
   return (
     <>
       <div className={`${isReply ? 'w-[95%]' : 'w-[90%]'} p-4 bg-white rounded-lg sm:max-w-[720px] sm:p-6 flex-col flex sm:flex-row-reverse `}>
@@ -124,7 +125,7 @@ const Comment = (props: CommentProps) => {
               {(user._id === currentUser._id) ? <EditAndDelete inMobile={false} toggleUserAction={toggleUserAction} /> : <Reply inMobile={false} toggleUserAction={toggleUserAction} />}
             </div>
           </div>
-          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text} isReply={isReply} /> : <div className='text-grayish-blue mb-4' >{text}</div>}
+          {isEditing ? <TextInput isEditing={true} isReplying={false} initialText={text} isReply={isReply} /> : <div className='text-grayish-blue mb-4' >{splitAndStyle(text)}</div>}
         </div>
         <div className='flex justify-between' >
           <SelectQuantity score={score} handleScore={handleScore} />
