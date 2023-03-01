@@ -33,7 +33,7 @@ const Comment = (props: CommentProps) => {
 
   const [isReplying, setIsReplying] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
-
+  
   //This handle the action of user: edit, reply and delete actions. 
   // If the reply or edit is made in the answers of a comment, the handle is to modify the array of answers of current comment, so the info needed is from the parent comment 'parentData'
   const toggleUserAction = (action: string) => {
