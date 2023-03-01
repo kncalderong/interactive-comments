@@ -6,21 +6,26 @@ export const getElapsedTime = (dateInput: string) => {
     const minutes= dateInput.split(',')[1].split(':')[1]
     const seconds = dateInput.split(',')[1].split(':')[2].split(' ')[0]
     const isPM = dateInput.split(',')[1].split(':')[2].split(' ')[1].includes('p')
-    
-    if (isPM) {
+
+  if (isPM && hours !== 12) {
       hours = +hours + 12
   }
+  if (!isPM && hours === 12) {
+    hours = 0
+  }
   
-    const targetDate = new Date(+year, +month - 1 , +day, hours, +minutes, +seconds)
-    const elapsedSeconds = (+now - +targetDate) / 1000
+  const targetDate = new Date(+year, +month - 1 , +day, hours, +minutes, +seconds)
+  const elapsedSeconds = (+now - +targetDate) / 1000
+  
     
     if (elapsedSeconds < 60)  {
       return 'now'
     }
     
-    const elapsedMinutes = elapsedSeconds / 60
+  const elapsedMinutes = elapsedSeconds / 60
+  
     if (elapsedMinutes >= 1 && elapsedMinutes < 60) {
-      if (elapsedMinutes === 1) {
+      if (elapsedMinutes < 2) {
         return `1 minute ago`
       }
       return `${Math.floor(elapsedMinutes)} minutes ago`
@@ -28,7 +33,7 @@ export const getElapsedTime = (dateInput: string) => {
     
     const elapsedHours = elapsedMinutes / 60    
     if (elapsedHours >= 1 && elapsedHours <= 24) {
-      if (elapsedHours === 1) {
+      if (elapsedHours < 2) {
         return `1 hour ago`
       }
       return `${Math.floor(elapsedHours)} hours ago`
@@ -36,7 +41,7 @@ export const getElapsedTime = (dateInput: string) => {
     
     const elapsedDays = elapsedHours / 24    
     if (elapsedDays >= 1 && elapsedDays <= 365) {
-      if (elapsedDays === 1) {
+      if (elapsedDays < 2) {
         return `1 day ago`
       }
       return `${Math.floor(elapsedDays)} days ago`
@@ -44,7 +49,7 @@ export const getElapsedTime = (dateInput: string) => {
     
     const elapsedYears = elapsedDays / 365    
     if (elapsedYears >= 1) {
-      if (elapsedYears === 1) {
+      if (elapsedYears < 2) {
         return `1 year ago`
       }
       return `${Math.floor(elapsedYears)} years ago`
